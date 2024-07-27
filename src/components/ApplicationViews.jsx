@@ -23,8 +23,8 @@ export const ApplicationViews = () => {
         }
     }])
 
-    const fetchRocksFromAPI = async () => {
-        const response = await fetch("http://localhost:8000/rocks",
+    const fetchRocksFromAPI = async (query = "") => {
+        const response = await fetch(`http://localhost:8000/rocks${query}`,
             {
                 headers: {
                     Authorization: `Token ${JSON.parse(localStorage.getItem("rock_token")).token}`
