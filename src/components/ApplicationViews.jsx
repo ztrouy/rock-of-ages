@@ -4,7 +4,6 @@ import { Authorized } from "./Authorized"
 import { Login } from "../pages/Login.jsx"
 import Home from "../pages/Home"
 import { RockForm } from "./RockForm.jsx"
-import RockList from "./RockList.jsx"
 import { Register } from '../pages/Register.jsx'
 import AllRocks from '../pages/AllRocks.jsx'
 import MyRocks from '../pages/MyRocks.jsx'
