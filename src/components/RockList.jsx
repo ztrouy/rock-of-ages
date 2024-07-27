@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
-export const RockList = ({ rocks, fetchRocks }) => {
-    const [url, setURL] = useState(location.pathname)
-    
+const RockList = ({ rocks, fetchRocks }) => {
     useEffect(() => {
-        const myRocks = url.includes("/mine")
+        fetchRocks()
+    }, [])
 
-        if (myRocks) {
-            fetchRocks("?owner=current")
-        } else {
-            fetchRocks()
+    const handleDelete = (id) => {
+        const deleteOptions = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${JSON.parse(localStorage.getItem("rock_token")).token}`
+            }
         }
-    }, [url])
 
-    useEffect(() => {
-        setURL(location.pathname)
-    })
+        fetch(`http://localhost:8000/rocks/${id}`, deleteOptions).then(() => {
+            fetchRocks()
+        })
+    }
 
     const displayRocks = () => {
         if (rocks && rocks.length) {
@@ -26,6 +28,14 @@ export const RockList = ({ rocks, fetchRocks }) => {
                 <div>
                     In the collection of {rock.user.firstName} {rock.user.lastName}
                 </div>
+                {location.pathname.includes("/mine") && (
+                    <button 
+                        className="button rounded-md bg-red-700 text-blue-100 p-2 mt-4"
+                        onClick={() => handleDelete(rock.id)}
+                    >
+                        Delete
+                    </button>
+                )}
             </div>)
         }
 
@@ -39,3 +49,5 @@ export const RockList = ({ rocks, fetchRocks }) => {
         </>
     )
 }
+
+export default RockList
