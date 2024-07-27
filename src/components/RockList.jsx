@@ -1,9 +1,21 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const RockList = ({ rocks, fetchRocks }) => {
+    const [url, setURL] = useState(location.pathname)
+    
     useEffect(() => {
-        fetchRocks()
-    }, [])
+        const myRocks = url.includes("/mine")
+
+        if (myRocks) {
+            fetchRocks("?owner=current")
+        } else {
+            fetchRocks()
+        }
+    }, [url])
+
+    useEffect(() => {
+        setURL(location.pathname)
+    })
 
     const displayRocks = () => {
         if (rocks && rocks.length) {
